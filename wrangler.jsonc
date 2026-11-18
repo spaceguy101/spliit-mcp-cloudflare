@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "spliit-mcp-cloudflare",
+  "main": "src/server.ts",
+  "compatibility_date": "2026-08-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "WRITES_ENABLED": "true",
+    "SPLIIT_TIMEOUT_MS": "15000",
+    "DRAFT_TTL_SECONDS": "600",
+    "ALLOWED_HOSTNAMES": "spliit.app",
+    "ALLOWED_SPLIIT_HOSTNAMES": "spliit.app"
+  },
+  "secrets": {
+    "required": [
+      "MCP_AUTH_TOKEN",
+      "ADMIN_TOKEN",
+      "DATA_ENCRYPTION_KEY",
+      "SPLIIT_GROUPS_JSON"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SPLIIT_STATE",
+        "class_name": "SpliitState"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["SpliitState"]
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  }
+}
